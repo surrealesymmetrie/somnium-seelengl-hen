@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Seelenglühen – Bonus Mini-Hörbuch</title>
+
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Foglihten&display=swap" rel="stylesheet">
+
+<style>
+  body {
+    font-family: 'Foglihten', serif;
+    background: #111;
+    color: #eee;
+    padding: 20px;
+    text-align: center;
+  }
+  h1 {
+    font-size: 2.2em;
+    margin-bottom: 10px;
+    text-transform: uppercase;
+  }
+  #nowPlaying {
+    margin: 10px 0;
+    font-weight: bold;
+    font-size: 1.1em;
+  }
+  .track {
+    margin-bottom: 8px;
+    cursor: pointer;
+  }
+  .track:hover {
+    text-decoration: underline;
+  }
+  #playlist {
+    display: inline-block;
+    text-align: left;
+    margin-top: 20px;
+  }
+  audio {
+    width: 100%;
+    margin-top: 10px;
+  }
+  img.cover {
+    width: 200px;
+    margin-bottom: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.5);
+  }
+</style>
+</head>
+<body>
+
+<h1>Seelenglühen</h1>
+<img src="seelenglühen.png" alt="Cover Seelenglühen" class="cover">
+
+<audio id="audio" controls controlsList="nodownload"></audio>
+<div id="nowPlaying"></div>
+<div id="playlist"></div>
+
+<script>
+const tracks = [
+  ["AUGEN","01-AUGEN.mp3"],
+  ["HERZ","02-HERZ.mp3"],
+  ["LUNGE","03-LUNGE.mp3"],
+  ["VERSTAND","04-VERSTAND.mp3"],
+  ["RÜCKGRAT","05-RÜCKGRAT.mp3"]
+];
+
+const audio = document.getElementById('audio');
+const playlist = document.getElementById('playlist');
+let current = 0;
+
+function renderPlaylist() {
+  playlist.innerHTML = '';
+  tracks.forEach((track, index) => {
+    const div = document.createElement('div');
+    div.textContent = track[0];
+    div.className = 'track';
+    div.onclick = () => playTrack(index);
+    playlist.appendChild(div);
+  });
+}
+
+function playTrack(index) {
+  current = index;
+  audio.src = tracks[index][1];
+  document.getElementById('nowPlaying').textContent = "▶ " + tracks[index][0];
+  audio.play();
+}
+
+// Kein Autostart – nur Playlist anzeigen
+window.addEventListener('load', () => {
+  renderPlaylist();
+});
+</script>
+
+</body>
+</html>
