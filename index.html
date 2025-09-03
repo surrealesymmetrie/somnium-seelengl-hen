@@ -16,11 +16,6 @@
     padding: 20px;
     text-align: center;
   }
-  h1 {
-    font-size: 2.2em;
-    margin-bottom: 10px;
-    text-transform: uppercase;
-  }
   #nowPlaying {
     margin: 10px 0;
     font-weight: bold;
@@ -89,12 +84,28 @@ function playTrack(index) {
   audio.play();
 }
 
-// Kein Autostart – nur Playlist anzeigen
+// Fortschritt speichern
+audio.addEventListener('timeupdate', () => {
+  localStorage.setItem('bonus-track', current);
+  localStorage.setItem('bonus-time', audio.currentTime);
+});
+
+// Beim Laden gespeicherten Stand wiederherstellen
 window.addEventListener('load', () => {
   renderPlaylist();
+  const savedTrack = localStorage.getItem('bonus-track');
+  const savedTime = localStorage.getItem('bonus-time');
+  if (savedTrack !== null) {
+    current = parseInt(savedTrack);
+    audio.src = tracks[current][1];
+    document.getElementById('nowPlaying').textContent = "▶ " + tracks[current][0];
+    if (savedTime) {
+      audio.currentTime = parseFloat(savedTime);
+    }
+    // Kein Autoplay – Nutzer muss selbst starten
+  }
 });
 </script>
 
 </body>
-
 </html>
